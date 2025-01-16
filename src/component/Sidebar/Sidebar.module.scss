@@ -1,0 +1,136 @@
+.sidebar {
+    @apply bg-primary-500 fixed h-full top-0 bottom-0 left-0 flex flex-col w-52;
+    transition: width 0.3s ease;
+
+    &.collapsed {
+        width: 56px;
+
+        .nav-list {
+            @apply overflow-y-hidden;
+        }
+
+        .nav-item__name {
+            @apply opacity-0;
+        }
+
+        .item-genre {
+            @apply opacity-0;
+        }
+    }
+}
+
+//header
+
+.header {
+    @apply fixed top-0 left-0 z-30 w-full bg-black;
+}
+
+.header-list {
+    @apply flex flex-1  items-center;
+}
+
+.header-item {
+    @apply h-16 pt-1 pb-1;
+}
+
+.header-icon__wrapper {
+    @apply flex justify-center items-center rounded py-0 h-14 w-14;
+    &:hover {
+        background-color: #292929;
+    }
+}
+
+.header-icon {
+    @apply text-white;
+    font-size: 20px;
+}
+
+.header-logo__wrapper {
+    @apply flex items-center;
+}
+
+.header-logo {
+}
+
+//navigation
+
+.nav {
+    @apply pt-16;
+}
+
+.nav-list {
+    @apply overflow-y-scroll overflow-x-hidden;
+    height: calc(100vh - 224px);
+}
+
+.nav-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.nav-list::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-bottom: 5px solid #ccc;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+    background-color: #999999;
+    border-radius: 8px;
+    border: 0;
+}
+
+.nav-list::-webkit-scrollbar-track {
+    @apply bg-primary-500;
+    border-radius: 10px;
+}
+
+.nav-item {
+    @apply text-white w-full flex items-center overflow-hidden;
+
+    &:hover {
+        background-color: #292929;
+    }
+}
+
+.nav-item--yellow {
+    color: #ddaa00;
+}
+
+.border-top {
+    border-top: 2px solid rgba(204, 204, 204, 0.2);
+}
+
+.nav-item__icon {
+    @apply w-14 h-14 flex items-center justify-center flex-shrink-0;
+    font-size: 18px;
+}
+
+.nav-item__name {
+    @apply whitespace-nowrap flex-shrink-0;
+    transition: opacity 0.4s ease;
+}
+
+.item-genre {
+    @apply w-full flex py-3 leading-normal text-sm text-white whitespace-nowrap;
+    padding-left: 56px;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        background-color: #292929;
+    }
+}
+
+//footer
+.account {
+    @apply py-3 px-4 absolute bottom-0 left-0 h-40 w-full flex items-center justify-center text-white;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #212121;
+}
+.account-setting {
+}
+.account-name {
+}
