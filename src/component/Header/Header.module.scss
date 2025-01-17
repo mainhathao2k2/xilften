@@ -1,3 +1,38 @@
-.wrapper {
-    @apply bg-primary-500 text-slate-50 p-4;
+.header {
+    @apply fixed top-0 left-0 z-10 w-full bg-black;
+    transition: all 0.2 ease-in;
+    height: var(--header-height);
+    transition: background-color 0.3s ease-in-out;
+
+    &.transparent {
+        background-color: transparent;
+    }
+}
+
+.header-list {
+    @apply flex flex-1  items-center;
+}
+
+.header-item {
+    @apply pt-1 pb-1;
+    height: var(--header-height);
+}
+
+.header-icon__wrapper {
+    @apply flex justify-center items-center rounded py-0 h-14 w-14;
+    &:hover {
+        background-color: #292929;
+    }
+}
+
+.header-icon {
+    @apply text-white;
+    font-size: 20px;
+}
+
+.header-logo__wrapper {
+    @apply flex items-center;
+}
+
+.header-logo {
 }

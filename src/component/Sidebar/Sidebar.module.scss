@@ -1,9 +1,10 @@
 .sidebar {
-    @apply bg-primary-500 fixed h-full top-0 bottom-0 left-0 flex flex-col w-52;
-    transition: width 0.3s ease;
+    @apply bg-primary-500 relative h-screen flex flex-col;
 
     &.collapsed {
-        width: 56px;
+        .nav {
+            width: 56px;
+        }
 
         .nav-list {
             @apply overflow-y-hidden;
@@ -18,49 +19,16 @@
         }
     }
 }
-
-//header
-
-.header {
-    @apply fixed top-0 left-0 z-30 w-full bg-black;
-}
-
-.header-list {
-    @apply flex flex-1  items-center;
-}
-
-.header-item {
-    @apply h-16 pt-1 pb-1;
-}
-
-.header-icon__wrapper {
-    @apply flex justify-center items-center rounded py-0 h-14 w-14;
-    &:hover {
-        background-color: #292929;
-    }
-}
-
-.header-icon {
-    @apply text-white;
-    font-size: 20px;
-}
-
-.header-logo__wrapper {
-    @apply flex items-center;
-}
-
-.header-logo {
-}
-
 //navigation
 
 .nav {
-    @apply pt-16;
+    @apply pt-16 w-52;
+    transition: all 0.2s ease;
 }
 
 .nav-list {
     @apply overflow-y-scroll overflow-x-hidden;
-    height: calc(100vh - 224px);
+    height: calc(100vh - var(--header-height) - var(--account-sidebar-height));
 }
 
 .nav-list::-webkit-scrollbar {
@@ -72,7 +40,6 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-
     border-bottom: 5px solid #ccc;
 }
 
@@ -125,9 +92,10 @@
 
 //footer
 .account {
-    @apply py-3 px-4 absolute bottom-0 left-0 h-40 w-full flex items-center justify-center text-white;
+    @apply py-3 px-4 absolute bottom-0 left-0 w-full flex items-center justify-center text-white;
     flex-direction: column;
     gap: 10px;
+    height: var(--account-sidebar-height);
     background-color: #212121;
 }
 .account-setting {

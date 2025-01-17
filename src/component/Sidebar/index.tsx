@@ -1,11 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
-import { faBars, faHeart, faHistory, faHouse, faStream } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { faHeart, faHistory, faHouse, faStream } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState, useContext, useRef, Suspense, lazy } from 'react';
 import axios from 'axios';
 
 import styles from './Sidebar.module.scss';
-import logo from '../../assets/logo.svg';
+import { DefaultLayoutContext } from '../providers/DefaultLayoutProvider';
+import { Link } from 'react-router';
+const GenreList = lazy(() => import('./GenreList'));
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +15,7 @@ interface MenuSidebar {
     id: string;
     icon: JSX.Element;
     name: string;
+    slug: string;
 }
 
 interface Genre {
@@ -26,28 +29,54 @@ const listNavigation: Array<MenuSidebar> = [
         id: 'home',
         icon: <FontAwesomeIcon icon={faHouse} />,
         name: 'Trang chủ',
+        slug: '/',
     },
     {
-        id: 'wishlist',
+        id: 'detail',
+        icon: <FontAwesomeIcon icon={faHouse} />,
+        name: 'Trang chủ',
+        slug: '/detail',
+    },
+    {
+        id: 'watchlist',
         icon: <FontAwesomeIcon icon={faHeart} />,
         name: 'Yêu thích',
+        slug: '/watchlist',
     },
     {
         id: 'history',
         icon: <FontAwesomeIcon icon={faHistory} />,
         name: 'Lịch sử',
+        slug: '/history',
     },
     {
         id: 'genres',
         icon: <FontAwesomeIcon icon={faStream} />,
         name: 'Thể loại',
+        slug: '',
     },
 ];
 
 const Sidebar: React.FC = () => {
     const [genres, setGenres] = useState<Genre[]>([]);
-    const [isCollapsed, setIsCollapsed] = useState(false); // Trạng thái thu gọn sidebar
+    const context = useContext(DefaultLayoutContext);
+    const navRef = useRef<HTMLUListElement>(null);
 
+    //handling scroll to top when width resizing
+    useEffect(() => {
+        const element = navRef.current;
+        if (element) {
+            const resizeObserver = new ResizeObserver(() => {
+                navRef.current?.scroll({ top: 0 });
+            });
+
+            resizeObserver.observe(element);
+
+            return () => resizeObserver.disconnect();
+        }
+    }, []);
+
+    //fetch API get genres
     useEffect(() => {
         const getGenres = async () => {
             const res = await axios.get('https://ophim1.com//v1/api/the-loai');
@@ -60,42 +89,32 @@ const Sidebar: React.FC = () => {
         getGenres();
     }, []);
 
-    const handleToggle = () => {
-        setIsCollapsed((prev) => !prev);
-    };
-
     return (
-        <aside className={cx('sidebar', { collapsed: isCollapsed })}>
-            <header className={cx('header')}>
-                <ul className={cx('header-list')}>
-                    <li onClick={handleToggle} className={cx('header-item', 'header-icon__wrapper')}>
-                        <FontAwesomeIcon className={cx('header-icon')} icon={faBars} />
-                    </li>
-                    <li className={cx('header-item', 'header-logo__wrapper')}>
-                        <img className={cx('header-logo')} src={logo} alt="logo" />
-                    </li>
-                </ul>
-            </header>
+        <aside className={cx('sidebar', { collapsed: context?.isCollapsed })}>
             <nav className={cx('nav')}>
-                <ul className={cx('nav-list')}>
+                <ul ref={navRef} className={cx('nav-list')}>
                     {listNavigation.map((menu) => (
-                        <li
-                            className={cx(
-                                'nav-item',
-                                { 'nav-item--yellow': menu.id === 'home' },
-                                { 'border-top': menu.id === 'genres' },
-                            )}
-                            key={menu.id}
-                        >
-                            <span className={cx('nav-item__icon')}>{menu.icon}</span>
-                            <span className={cx('nav-item__name')}>{menu.name}</span>
-                        </li>
+                        <Link key={menu.id} to={menu.slug}>
+                            <li
+                                className={cx(
+                                    'nav-item',
+                                    { 'nav-item--yellow': menu.id === 'home' },
+                                    { 'border-top': menu.id === 'genres' },
+                                )}
+                            >
+                                <span className={cx('nav-item__icon')}>{menu.icon}</span>
+                                <span className={cx('nav-item__name')}>{menu.name}</span>
+                            </li>
+                        </Link>
                     ))}
 
                     {genres.map((genre, index) => (
-                        <li className={cx('item-genre')} key={index}>
-                            {genre.name}
-                        </li>
+                        // <li key={index} className={cx('item-genre')}>
+                        //     {genre.name}
+                        // </li>
+                        <Suspense fallback={<li className={cx('genre-item--loading')}></li>}>
+                            <GenreList name={genre.name} index={index} />
+                        </Suspense>
                     ))}
                 </ul>
                 <ul className={cx('account')}>

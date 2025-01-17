@@ -2,12 +2,11 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import { publicRoutes } from './routes';
 import './App.css';
-import { HomeLayoutProps } from './types/interface';
 
 type RouteConfig = {
     path: string;
     component: React.FC;
-    layout?: React.FC<HomeLayoutProps> | null;
+    layout?: React.FC<{ children: React.ReactNode }> | null; // Sửa lại kiểu layout để nhận đúng kiểu 'children'
 };
 
 const App: React.FC = () => {
@@ -16,7 +15,7 @@ const App: React.FC = () => {
             <div className="App">
                 <Routes>
                     {publicRoutes.map((route: RouteConfig, index: number) => {
-                        const Layout: React.ComponentType<HomeLayoutProps> | typeof Fragment =
+                        const Layout: React.FC<{ children: React.ReactNode }> | typeof Fragment =
                             route.layout === null ? Fragment : route.layout!;
                         const Page: React.ComponentType = route.component;
                         return (

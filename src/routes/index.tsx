@@ -5,15 +5,15 @@ import MoviePlayer from '../pages/MoviePlayer';
 import Search from '../pages/Search';
 import WatchList from '../pages/WatchList';
 
-import HomeLayout from '../component/layouts/HomeLayout';
+import DefaultLayout from '../component/layouts/DefaultLayout';
 
 const publicRoutes = [
-    { path: '/', component: Home, layout: HomeLayout },
-    { path: '/detail', component: Detail, layout: null },
-    { path: '/history', component: History, layout: null },
-    { path: '/movieplayer', component: MoviePlayer, layout: null },
-    { path: '/search', component: Search, layout: null },
-    { path: '/watchlist', component: WatchList, layout: null },
+    { path: '/', component: Home, layout: DefaultLayout },
+    { path: '/detail', component: Detail, layout: DefaultLayout },
+    { path: '/history', component: History, layout: DefaultLayout },
+    { path: '/movieplayer', component: MoviePlayer, layout: DefaultLayout },
+    { path: '/search', component: Search, layout: DefaultLayout },
+    { path: '/watchlist', component: WatchList, layout: DefaultLayout },
 ];
 const privateRoutes = [];
 
