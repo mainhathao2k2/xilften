@@ -9,7 +9,7 @@ const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <DefaultLayoutProvider>
                 <Header></Header>
                 <Sidebar></Sidebar>
-                <div className="self-center flex-1">{children}</div>
+                <div className="self-start flex-1">{children}</div>
             </DefaultLayoutProvider>
         </div>
     );

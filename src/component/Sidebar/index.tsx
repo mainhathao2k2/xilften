@@ -76,16 +76,17 @@ const Sidebar: React.FC = () => {
         }
     }, []);
 
+    const getGenres = async () => {
+        const res = await axios.get('https://ophim1.com//v1/api/the-loai');
+        const genreList = res.data.data.items.map((item: Genre) => ({
+            id: item._id,
+            name: item.name,
+        }));
+        setGenres(genreList);
+    };
+
     //fetch API get genres
     useEffect(() => {
-        const getGenres = async () => {
-            const res = await axios.get('https://ophim1.com//v1/api/the-loai');
-            const genreList = res.data.data.items.map((item: Genre) => ({
-                id: item._id,
-                name: item.name,
-            }));
-            setGenres(genreList);
-        };
         getGenres();
     }, []);
 
@@ -112,7 +113,7 @@ const Sidebar: React.FC = () => {
                         // <li key={index} className={cx('item-genre')}>
                         //     {genre.name}
                         // </li>
-                        <Suspense fallback={<li className={cx('genre-item--loading')}></li>}>
+                        <Suspense key={index} fallback={<li className={cx('genre-item--loading')}></li>}>
                             <GenreList name={genre.name} index={index} />
                         </Suspense>
                     ))}
